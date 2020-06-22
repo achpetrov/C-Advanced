@@ -1,0 +1,49 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp122
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] firstBoxArr = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+            int []secondBoxArr = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+            Queue<int> firstBox = new Queue<int>(firstBoxArr);
+            Stack<int> secondBox = new Stack<int>(secondBoxArr);
+
+            int sumOfClaimedItems = 0;
+
+            while (firstBox.Count > 0 && secondBox.Count > 0)
+            {
+                if ((firstBox.Peek() + secondBox.Peek()) % 2 == 0)
+                {
+                    sumOfClaimedItems += firstBox.Dequeue() + secondBox.Pop();
+                }
+                else
+                {
+                    firstBox.Enqueue(secondBox.Pop());
+                }
+
+                if (firstBox.Count == 0)
+                {
+                    Console.WriteLine("First lootbox is empty");
+                }
+                if (secondBox.Count == 0)
+                {
+                    Console.WriteLine("Second lootbox is empty");
+                }
+            }
+
+            if (sumOfClaimedItems >= 100)
+            {
+                Console.WriteLine($"Your loot was epic! Value: {sumOfClaimedItems}");
+            }
+            else
+            {
+                Console.WriteLine($"Your loot was poor... Value: {sumOfClaimedItems}");
+            }
+        }
+    }
+}
